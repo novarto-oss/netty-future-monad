@@ -12,12 +12,6 @@ public class FuturesBench
 {
 
     @Benchmark
-    public String baselineReturnConst()
-    {
-        return "alabala";
-    }
-
-    @Benchmark
     public Object baselineCreateObject()
     {
         return new Object();

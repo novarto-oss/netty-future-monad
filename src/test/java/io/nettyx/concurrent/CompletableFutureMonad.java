@@ -23,4 +23,11 @@ public class CompletableFutureMonad
     {
         return fut.thenCompose(f);
     }
+
+    public static <A> CompletableFuture<A> failed(Throwable ex)
+    {
+        CompletableFuture<A> fut = new CompletableFuture<>();
+        fut.completeExceptionally(ex);
+        return fut;
+    }
 }

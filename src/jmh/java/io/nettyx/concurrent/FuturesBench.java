@@ -52,14 +52,14 @@ public class FuturesBench
     @Benchmark
     public Integer simpleMap(BenchState state) throws ExecutionException, InterruptedException
     {
-        Future<Integer> result = FutureMonad.map(FutureMonad.unit(state.anInt), x -> x*2);
+        Future<Integer> result = FutureMonad.map(FutureMonad.unit(state.anInt), x -> x * 2);
         return result.get();
     }
 
     @Benchmark
     public Integer simpleMapGuava(BenchState state) throws ExecutionException, InterruptedException
     {
-        ListenableFuture<Integer> result = FutureOpAliases.map(FutureOpAliases.unit(state.anInt), x -> x*2);
+        ListenableFuture<Integer> result = FutureOpAliases.map(FutureOpAliases.unit(state.anInt), x -> x * 2);
         return result.get();
     }
 
@@ -76,10 +76,10 @@ public class FuturesBench
         Future<Integer> result = FutureMonad.map(
                 FutureMonad.map(
                         FutureMonad.map(
-                                FutureMonad.map(FutureMonad.unit(state.anInt), x -> x*2),
-                                x -> x+3
+                                FutureMonad.map(FutureMonad.unit(state.anInt), x -> x * 2),
+                                x -> x + 3
                         ),
-                        x -> x-20
+                        x -> x - 20
                 ),
                 x -> x + 100
         );
@@ -92,10 +92,10 @@ public class FuturesBench
         ListenableFuture<Integer> result = FutureOpAliases.map(
                 FutureOpAliases.map(
                         FutureOpAliases.map(
-                                FutureOpAliases.map(FutureOpAliases.unit(state.anInt), x -> x*2),
-                                x -> x+3
+                                FutureOpAliases.map(FutureOpAliases.unit(state.anInt), x -> x * 2),
+                                x -> x + 3
                         ),
-                        x -> x-20
+                        x -> x - 20
                 ),
                 x -> x + 100
         );
@@ -108,10 +108,10 @@ public class FuturesBench
         CompletableFuture<Integer> result = CompletableFutureMonad.map(
                 CompletableFutureMonad.map(
                         CompletableFutureMonad.map(
-                                CompletableFutureMonad.map(CompletableFutureMonad.unit(state.anInt), x -> x*2),
-                                x -> x+3
+                                CompletableFutureMonad.map(CompletableFutureMonad.unit(state.anInt), x -> x * 2),
+                                x -> x + 3
                         ),
-                        x -> x-20
+                        x -> x - 20
                 ),
                 x -> x + 100
         );

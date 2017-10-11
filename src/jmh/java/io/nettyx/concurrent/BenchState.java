@@ -11,7 +11,7 @@ public class BenchState
     public String string = "hello olleh";
     public Integer anInt = 42;
 
-    public Function<Integer, Integer> doubleItFn = x -> x*2;
+    public Function<Integer, Integer> doubleItFn = x -> x * 2;
 
     public Integer doubleIt(Integer in)
     {

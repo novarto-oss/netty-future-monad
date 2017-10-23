@@ -44,7 +44,7 @@ dependencies {
     compile "io.netty:netty-common:$nettyVersion"
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile "org.functionaljava:functionaljava-quickcheck:4.7"
-    jmh 'com.novarto:lang-guava:0.9-SNAPSHOT'
+    testCompile 'com.novarto:lang-guava:0.9-SNAPSHOT'
 
 }
 

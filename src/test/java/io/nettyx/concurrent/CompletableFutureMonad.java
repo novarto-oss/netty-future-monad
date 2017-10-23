@@ -1,5 +1,7 @@
 package io.nettyx.concurrent;
 
+import fj.Unit;
+
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Executor;
@@ -17,14 +19,29 @@ public class CompletableFutureMonad
 
     public static <A, B> CompletableFuture<B> map(CompletableFuture<A> fut, Function<A, B> f)
     {
-        return fut.thenApply(f);
+        CompletableFuture<Unit> trigger = new CompletableFuture<>();
+
+        CompletableFuture<A> withTrigger = fut.thenCombineAsync(trigger, (x, ignore) -> x, DirectExecutor.INSTANCE);
+        CompletableFuture<B> result = withTrigger.thenApply(f);
+
+        trigger.complete(Unit.unit());
+
+        return result;
 
     }
 
     public static <A, B> CompletableFuture<B> flatMap(CompletableFuture<A> fut,
             Function<? super A, ? extends CompletionStage<B>> f)
     {
-        return fut.thenCompose(f);
+        CompletableFuture<Unit> trigger = new CompletableFuture<>();
+
+        CompletableFuture<A> withTrigger = fut.thenCombineAsync(trigger, (x, ignore) -> x, DirectExecutor.INSTANCE);
+
+        CompletableFuture<B> result = withTrigger.thenCompose(f);
+
+        trigger.complete(Unit.unit());
+
+        return result;
     }
 
     public static <A> CompletableFuture<A> failed(Throwable ex)

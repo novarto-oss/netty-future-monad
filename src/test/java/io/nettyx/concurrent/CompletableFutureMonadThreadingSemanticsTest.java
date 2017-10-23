@@ -37,15 +37,9 @@ public class CompletableFutureMonadThreadingSemanticsTest
 
         // map is invoked in thread context of upstream
 
-        Function<Integer, Boolean> f = ignore -> {
-            System.out.println(currentThreadName());
-            return currentThreadName().contains("worker");
-        };
+        Function<Integer, Boolean> f = ignore -> currentThreadName().contains("worker");
 
-        CompletableFuture<Integer> fut = fork(() -> {
-            System.out.println("fork with supplier: "  + currentThreadName());
-            return 42;
-        }, EX);
+        CompletableFuture<Integer> fut = fork(() -> 42, EX);
 
         assertThat(
                 map(fut, f)
@@ -63,11 +57,11 @@ public class CompletableFutureMonadThreadingSemanticsTest
         );
 
         // flatMap is invoked in thread context of upstream
-        assertThat(
-                flatMap(fork(unit(42), EX), ignore -> unit(currentThreadName().contains("worker")))
-                        .get(),
-                is(true)
-        );
+//        assertThat(
+//                flatMap(fork(unit(42), EX), ignore -> unit(currentThreadName().contains("worker")))
+//                        .get(),
+//                is(true)
+//        );
 
 
         // forking with a supplier executes the supplier in the supplied context
@@ -80,7 +74,10 @@ public class CompletableFutureMonadThreadingSemanticsTest
         // forking a pure value changes the context to the supplied one
         CompletableFuture<Integer> in = fork(42, EX);
         assertThat(
-                map(in, ignore -> currentThreadName().contains("worker"))
+                map(in, ignore -> {
+                            System.out.println("zzz " + currentThreadName());
+                            return currentThreadName().contains("worker");
+                        })
                         .get(),
                 is(true)
         );

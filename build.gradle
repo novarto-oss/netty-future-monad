@@ -45,6 +45,7 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile "org.functionaljava:functionaljava-quickcheck:4.7"
     testCompile 'com.novarto:lang-guava:0.9-SNAPSHOT'
+    testCompile 'io.trane:future-java:0.2.2'
 
 }
 
